@@ -8,7 +8,11 @@ import (
 
 //Show ...
 func Show(c *gin.Context) {
+
 	var productModel models.ProductModel
-	products, _ := productModel.FindAll()
+	limit := c.DefaultQuery("limit", "10")
+	offset := c.DefaultQuery("offset", "0")
+	products, _ := productModel.FindAll(limit, offset)
+
 	c.JSON(200, products)
 }

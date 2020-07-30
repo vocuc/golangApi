@@ -3,7 +3,6 @@ package models
 import (
 	"driver"
 	"entities"
-	"fmt"
 )
 
 //ProductModel ...
@@ -11,14 +10,14 @@ type ProductModel struct {
 }
 
 //FindAll ..
-func (*ProductModel) FindAll() ([]entities.Product, error) {
+func (*ProductModel) FindAll(limit, offset string) ([]entities.Product, error) {
 	db, err := driver.ConnectSQL()
 
 	if err != nil {
 		return nil, err
 	}
 
-	rows, err2 := db.Query("select id, price_lv0, product_avarta from products limit 10")
+	rows, err2 := db.Query("select id, product_name, price_lv0, product_avarta from products limit ? offset ?", limit, offset)
 
 	if err2 != nil {
 		return nil, err2
@@ -30,13 +29,12 @@ func (*ProductModel) FindAll() ([]entities.Product, error) {
 		var product entities.Product
 		rows.Scan(
 			&product.ID,
+			&product.ProductName,
 			&product.PriceLv0,
 			&product.ProductAvarta,
 		)
 		products = append(products, product)
 	}
-
-	fmt.Println(products)
 
 	defer db.Close()
 	return products, nil
