@@ -13,6 +13,7 @@ func main() {
 	models.ConnectDataBase()
 
 	group := router.Group("/api/v1")
+
 	group.GET("/products", productcontroler.Products)
 
 	router.Run()
