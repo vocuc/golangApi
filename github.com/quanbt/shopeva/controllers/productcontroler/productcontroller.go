@@ -59,3 +59,32 @@ func Store(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": product})
 }
+
+type UpdateProductInput struct {
+	Name   string `json:"name"`
+	Price  int    `json:"price"`
+	Images string `json:"images"`
+}
+
+//Update ...
+func Update(c *gin.Context) {
+	var product models.Product
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&product).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	var input UpdateProductInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	models.DB.Model(&product).Updates(map[string]interface{}{
+		"product_name":   input.Name,
+		"price_lv0":      input.Price,
+		"product_avarta": input.Images,
+	})
+
+	c.JSON(http.StatusOK, gin.H{"data": product})
+}

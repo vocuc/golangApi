@@ -20,6 +20,6 @@ func main() {
 	group.GET("/products", productcontroler.Products)
 	group.POST("/products", productcontroler.Store)
 	group.GET("/products/:id", productcontroler.FindProduct)
-
+	group.PUT("/products/:id", productcontroler.Update)
 	router.Run()
 }
