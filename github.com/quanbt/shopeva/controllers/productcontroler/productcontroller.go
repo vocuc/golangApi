@@ -60,6 +60,7 @@ func Store(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": product})
 }
 
+//UpdateProductInput ...
 type UpdateProductInput struct {
 	Name   string `json:"name"`
 	Price  int    `json:"price"`
@@ -80,10 +81,10 @@ func Update(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&product).Updates(map[string]interface{}{
-		"product_name":   input.Name,
-		"price_lv0":      input.Price,
-		"product_avarta": input.Images,
+	models.DB.Model(&product).Updates(&models.Product{
+		Name:   sql.NullString{String: input.Name, Valid: true},
+		Price:  input.Price,
+		Images: input.Images,
 	})
 
 	c.JSON(http.StatusOK, gin.H{"data": product})
