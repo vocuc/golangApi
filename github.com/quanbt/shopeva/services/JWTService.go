@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"shopeva/models"
@@ -11,4 +11,3 @@ type JWTService interface {
 	CreateAccessToken(user models.User) (string, error)
 	ValidateToken(encodedToken string) (*jwt.Token, error)
 }
-
