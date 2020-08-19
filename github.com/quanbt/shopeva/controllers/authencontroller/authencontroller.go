@@ -2,11 +2,9 @@ package authencontroller
 
 import (
 	"net/http"
-	"os"
 	"shopeva/models"
-	"time"
+	"shopeva/services"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -21,6 +19,7 @@ type UserInputRequest struct {
 func Login(c *gin.Context) {
 	var user models.User
 	var userInput UserInputRequest
+	var jwtService services.JWTService
 
 	if err := c.ShouldBindJSON(&userInput); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -39,7 +38,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := CreateAccessToken(user)
+	token, err := jwtService.CreateAccessToken(user)
 	tokens := map[string]string{
 		"access_token":  token,
 		"refresh_token": "balangnhang_werkj3@%#$&%^*dfwjerlkwje#$234123",
@@ -51,26 +50,6 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": tokens})
-}
-
-//CreateAccessToken ...
-func CreateAccessToken(user models.User) (string, error) {
-	atClaims := jwt.MapClaims{}
-	atClaims["authorized"] = true
-	atClaims["id"] = user.ID
-	atClaims["userName"] = user.Name
-	atClaims["store_id"] = user.StoreID
-	atClaims["admin_level"] = user.AdminLevel
-	atClaims["workGroup"] = user.WorkGroup
-	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
-	accesstoken := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	token, err := accesstoken.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
-
-	if err != nil {
-		return "", err
-	}
-
-	return token, nil
 }
 
 //PassowrdHash ...
