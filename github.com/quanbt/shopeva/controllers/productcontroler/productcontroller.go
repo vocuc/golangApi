@@ -20,7 +20,7 @@ func Products(c *gin.Context) {
 
 	var products []models.Product
 
-	models.DB.Limit(10).Offset(0).Find(&products)
+	models.DB.Find(&products)
 
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
