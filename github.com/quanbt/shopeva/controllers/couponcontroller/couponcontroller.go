@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"shopeva/helpers"
 	"shopeva/models"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -63,10 +62,5 @@ func CreateaCoupon(c *gin.Context) {
 
 	transaction.Commit()
 
-	data := map[string]string{
-		"coupon_name": strings.ToUpper(couponName),
-		"coupon_id":   string(coupon.ID),
-	}
-
-	c.JSON(http.StatusBadRequest, gin.H{"error_code": 0, "data": data})
+	c.JSON(http.StatusBadRequest, gin.H{"error_code": 0, "data": coupon})
 }
