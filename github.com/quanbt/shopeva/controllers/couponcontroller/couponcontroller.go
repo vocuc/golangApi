@@ -3,6 +3,7 @@ package couponcontroller
 import (
 	"net/http"
 	"shopeva/helpers"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +22,7 @@ func CreateaCoupon(c *gin.Context) {
 		return
 	}
 
-	
-	c.JSON(http.StatusBadRequest, gin.H{"data": helpers.RandomString(10)})
+	couponName := helpers.RandomString(8)
+
+	c.JSON(http.StatusBadRequest, gin.H{"data": strings.ToUpper(couponName)})
 }
