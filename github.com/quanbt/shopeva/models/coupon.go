@@ -1,12 +1,18 @@
 package models
 
+//CouponStatusActive Trạng thái đang hoạt đông
+const CouponStatusActive = 1
+
+//CouponStatusNotActive Trạng thái không hoạt động
+const CouponStatusNotActive = 1
+
 //Coupon ...
 type Coupon struct {
 	ID          uint   `json:"id" gorm:"primary_key"`
 	Name        string `gorm:"column:name" json:"name"`
 	Value       int    `gorm:"column:value" json:"value"`
 	Limit       int    `gorm:"column:limit" json:"limit"`
-	ExpiredDate int    `gorm:"column:expired_date" json:"expired"`
+	ExpiredDate int64  `gorm:"column:expired_date" json:"expired"`
 	CreatedBy   int    `gorm:"column:created_by" json:"created_by"`
 	ForUser     int    `gorm:"column:for_user" json:"for_user"`
 	ForPhone    string `gorm:"column:for_phone" json:"for_phone"`
