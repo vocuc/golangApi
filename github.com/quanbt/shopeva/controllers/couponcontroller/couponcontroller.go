@@ -27,7 +27,7 @@ func CreateaCoupon(c *gin.Context) {
 	couponName := helpers.RandomString(8)
 
 	coupon := models.Coupon{
-		Name:        input.Name,
+		Name:        couponName,
 		Value:       50000,
 		Limit:       1,
 		ExpiredDate: time.Now().Unix() + (86400 * 30),
