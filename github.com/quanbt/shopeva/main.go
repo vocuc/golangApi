@@ -2,13 +2,14 @@ package main
 
 import (
 	"os"
-	"shopeva/controllers/authencontroller"
 
 	"github.com/gin-gonic/gin"
 
-	"shopeva/controllers/productcontroler"
 	"shopeva/models"
+	"shopeva/routers"
 )
+
+var router *gin.Engine
 
 func init() {
 	os.Setenv("PORT", "9000")
@@ -17,20 +18,7 @@ func init() {
 }
 
 func main() {
-	router := gin.Default()
 	models.ConnectDataBase()
-	group := router.Group("/api/v1")
-
-	//Product
-	group.GET("/products", productcontroler.Products)
-	group.POST("/products", productcontroler.Store)
-	group.GET("/products/:id", productcontroler.FindProduct)
-	group.PUT("/products/:id", productcontroler.Update)
-
-	//Login
-	group.POST("/login", authencontroller.Login)
-
-	router.Run()
-
+	routers.InitRoutes()
 	defer models.DB.Close()
 }

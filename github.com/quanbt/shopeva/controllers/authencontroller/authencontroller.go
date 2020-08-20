@@ -3,7 +3,7 @@ package authencontroller
 import (
 	"net/http"
 	"shopeva/models"
-	"shopeva/services"
+	"shopeva/services/jwtservice"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -19,7 +19,6 @@ type UserInputRequest struct {
 func Login(c *gin.Context) {
 	var user models.User
 	var userInput UserInputRequest
-	var jwtService services.JWTService
 
 	if err := c.ShouldBindJSON(&userInput); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -38,7 +37,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := jwtService.CreateAccessToken(user)
+	token, err := jwtservice.CreateAccessToken(user)
 	tokens := map[string]string{
 		"access_token":  token,
 		"refresh_token": "balangnhang_werkj3@%#$&%^*dfwjerlkwje#$234123",

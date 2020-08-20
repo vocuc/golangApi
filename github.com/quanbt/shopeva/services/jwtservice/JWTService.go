@@ -1,4 +1,4 @@
-package services
+package jwtservice
 
 import (
 	"os"
@@ -8,18 +8,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-//JWTInterface ...
-type JWTInterface interface {
-	CreateAccessToken(user models.User) (string, error)
-	ValidateToken(encodedToken string) (*jwt.Token, error)
-}
-
-//JWTService ...
-type JWTService struct {
-}
-
 //CreateAccessToken ...
-func (s JWTService) CreateAccessToken(user models.User) (string, error) {
+func CreateAccessToken(user models.User) (string, error) {
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["id"] = user.ID
