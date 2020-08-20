@@ -15,6 +15,18 @@ type couponInput struct {
 	Name  string `json:"name" binding:"required"`
 }
 
+//ShowCoupon ...
+func ShowCoupon(c *gin.Context) {
+	var coupon models.Coupon
+
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&coupon).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": coupon})
+}
+
 //CreateaCoupon ...
 func CreateaCoupon(c *gin.Context) {
 	var input couponInput

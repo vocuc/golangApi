@@ -20,6 +20,7 @@ func InitRoutes() {
 	group.PUT("/products/:id", productcontroler.Update)
 
 	//Coupon
+	group.GET("/coupons/:id", couponcontroller.ShowCoupon)
 	group.POST("/coupons", couponcontroller.CreateaCoupon)
 
 	//Login
