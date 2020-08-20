@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"shopeva/helpers"
 	"shopeva/models"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +27,7 @@ func CreateaCoupon(c *gin.Context) {
 	couponName := helpers.RandomString(8)
 
 	coupon := models.Coupon{
-		Name:        couponName,
+		Name:        strings.ToUpper(couponName),
 		Value:       50000,
 		Limit:       1,
 		ExpiredDate: time.Now().Unix() + (86400 * 30),
