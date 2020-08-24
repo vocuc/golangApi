@@ -3,13 +3,14 @@ package productcontroler
 import (
 	"database/sql"
 	"net/http"
+	"strconv"
 
 	"shopeva/models"
 
 	"github.com/gin-gonic/gin"
 )
 
-type ProductFormInput struct {
+type productFormInput struct {
 	ProductName   string `json:"name" binding:"required"`
 	ProductPrice  int    `json:"price" binding:"required"`
 	ProductAvarta string `json:"avarta" binding:"required"`
@@ -17,10 +18,12 @@ type ProductFormInput struct {
 
 //Products Get all Products
 func Products(c *gin.Context) {
-
 	var products []models.Product
 
-	models.DB.Find(&products)
+	limit, _ := strconv.ParseInt(c.DefaultQuery("limit", "20"), 10, 32)
+	offset, _ := strconv.ParseInt(c.DefaultQuery("offset", "0"), 10, 32)
+
+	models.DB.Limit(limit).Offset(offset).Find(&products)
 
 	c.JSON(http.StatusOK, gin.H{"data": products})
 }
@@ -39,7 +42,7 @@ func FindProduct(c *gin.Context) {
 
 //Store Tạo sản phẩm mới
 func Store(c *gin.Context) {
-	var input ProductFormInput
+	var input productFormInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
