@@ -12,6 +12,7 @@ import (
 func InitRoutes() {
 	router := gin.Default()
 	group := router.Group("/api/v1")
+	//group.Use(middleware.AuthMiddleware()){}
 
 	//Product
 	group.GET("/products", productcontroler.Products)
