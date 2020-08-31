@@ -11,7 +11,7 @@ import (
 type jobInput struct {
 	FullName     string `json:"name" binding:"required"`
 	Phone        string `json:"phone" binding:"required"`
-	Cast         int    `json:"cast" binding:"required"`
+	Cast         int    `json:"cast,string" binding:"required"`
 	LinkVideo    string `json:"video" binding:"required"`
 	LinkFacebook string `json:"facebook" binding:"required"`
 }
