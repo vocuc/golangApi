@@ -3,6 +3,7 @@ package routers
 import (
 	"shopeva/controllers/authencontroller"
 	"shopeva/controllers/couponcontroller"
+	"shopeva/controllers/jobscontroller"
 	"shopeva/controllers/productcontroler"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +24,9 @@ func InitRoutes() {
 	//Coupon
 	group.GET("/coupons/:id", couponcontroller.ShowCoupon)
 	group.POST("/coupons", couponcontroller.CreateaCoupon)
+
+	//jobs
+	group.POST("/jobs", jobscontroller.Store)
 
 	//Login
 	group.POST("/login", authencontroller.Login)
